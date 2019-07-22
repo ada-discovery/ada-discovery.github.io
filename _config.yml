@@ -9,6 +9,10 @@ collections:
   citation :
   collaborators :
 
+include:
+  - CONTRIBUTING.md
+  - README.md
+
 # used to estimate reading time
 wpm: 150
 
