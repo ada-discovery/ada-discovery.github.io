@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
+]>
+<svg version="1.1"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" width="991px" height="232px" viewBox="-30.489 25.902 991 232"
+	 overflow="visible" enable-background="new -30.489 25.902 991 232" xml:space="preserve">
+<defs>
+</defs>
+<rect x="5" y="58.073" display="none" fill="none" stroke="#333333" stroke-width="10" stroke-miterlimit="10" width="1609" height="178"/>
+<rect x="2.36" y="43.902" fill="none" width="2014.894" height="370.213"/>
+<text transform="matrix(1 0 0 1 2.3599 192.3003)" fill="#333333" font-family="'Evolution'" font-size="200">openCOBRA</text>
+</svg>

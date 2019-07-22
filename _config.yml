@@ -1,0 +1,25 @@
+# Site settings
+title: openCOBRA
+email: open@cobra
+copyright_name: openCOBRA
+github_username: opencobra
+
+collections:
+  packages :
+  citation :
+  collaborators :
+
+# used to estimate reading time
+wpm: 150
+
+port: 4444
+permalink: /:title
+
+baseurl: 
+
+# jekyll-paginate
+paginate: 5
+paginate_path: /page:num
+
+# gem dependencies
+gems: [jekyll-paginate, jekyll-feed, jekyll-gist]
