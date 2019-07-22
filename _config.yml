@@ -1,8 +1,8 @@
 # Site settings
-title: openCOBRA
-email: open@cobra
-copyright_name: openCOBRA
-github_username: opencobra
+title: Ada Discovery Analytics
+email: peter.banda@protonmail.com
+copyright_name: Ada Discovery Analytics
+github_username: peterbanda
 
 collections:
   packages :
