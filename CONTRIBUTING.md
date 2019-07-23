@@ -1,4 +1,0 @@
-# CONTRIBUTING
-
-* Lala
-* Lili
