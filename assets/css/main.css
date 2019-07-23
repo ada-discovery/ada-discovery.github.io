@@ -3206,7 +3206,7 @@ body.is-loading #header.alt .logo {
 }
 
 .navbar-collapse {
-    visibility: hidden;
+    visibility: visible;
 }
 .navbar-toggle {
       visibility: hidden;
