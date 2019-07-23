@@ -10,6 +10,7 @@ collections:
   collaborators :
 
 include:
+  - downloads.html
   - Installation_Linux-0.7.x.md
   - Installation_MacOS-0.7.x.md
   - Installation_Linux-0.8.x.md
