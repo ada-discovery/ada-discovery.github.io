@@ -14,8 +14,7 @@ layout: default
                     </div>
 		</div>
             </section>
-            <hr/>
-            <section id="collaborators" class="special">
+            <section id="collaborators" class="main special">
                   <ul class="featureslogo">
                       {% for item in site.collaborators %}
                       <li>
