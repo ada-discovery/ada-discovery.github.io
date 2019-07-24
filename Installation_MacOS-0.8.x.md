@@ -1,3 +1,6 @@
+&nbsp;
+&nbsp;
+
 # Ada Installation Guide (MacOS) - Version 0.8.x
 
 (Expected time: 30-45 mins)
@@ -7,6 +10,7 @@
 ### 0. Preparation
 
 Recommended OS: *MacOS* 10.14.4
+
 Recommended resources:
 
 * **Ada Server**: 8 GB RAM, 8 CPUs, 20 GB disc space

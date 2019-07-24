@@ -1,13 +1,16 @@
+&nbsp;
+&nbsp;
+
 # Ada Installation Guide (Linux) - Version 0.7.x
 
 (Expected time: 30-45 mins)
 
 &nbsp;
 
-
 ### 0. Preparation
 
 Recommended OS: *Ubuntu 16.04, 17,04,* or *18.04*
+
 Recommended resources:
 
 * **Ada Server**: 8 GB RAM, 8 CPUs, 40 GB disc space
