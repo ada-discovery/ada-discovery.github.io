@@ -2,6 +2,7 @@
 &nbsp;
 &nbsp;
 &nbsp;
+&nbsp;
 
 # Ada Installation Guide (MacOS) - Version 0.7.x
 
