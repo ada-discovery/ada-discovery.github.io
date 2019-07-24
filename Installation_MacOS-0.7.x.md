@@ -1,5 +1,6 @@
 &nbsp;
 &nbsp;
+&nbsp;
 
 # Ada Installation Guide (MacOS) - Version 0.7.x
 
@@ -71,6 +72,7 @@ mongodb    hard    as              unlimited
 * To force your new limits to be loaded log out of all your current sessions and log back in
 
 * Add MongoDB installation folder to PATH environment variable `/etc/paths`
+
 ```
 <mongo_installation_folder>/bin
 ```
@@ -87,7 +89,7 @@ mongod
 * Optionally set up users with authentication as described [here](https://docs.mongodb.com/v3.2/tutorial/create-users/).
 * For tuning tips go to [here](https://www.percona.com/blog/2016/08/12/tuning-linux-for-mongodb).
 
- &nbsp; 
+&nbsp; 
 
 ## 3. **Elastic Search**
 

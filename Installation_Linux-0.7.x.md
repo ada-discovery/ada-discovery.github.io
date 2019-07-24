@@ -1,5 +1,6 @@
 &nbsp;
 &nbsp;
+&nbsp;
 
 # Ada Installation Guide (Linux) - Version 0.7.x
 
@@ -97,8 +98,7 @@ sudo service mongod start
 * Optionally set up users with authentication as described [here](https://docs.mongodb.com/v3.2/tutorial/create-users/).
 * For tuning tips go to [here](https://www.percona.com/blog/2016/08/12/tuning-linux-for-mongodb).
 
-  
-
+&nbsp;
 
 ## 3. **Elastic Search**
 
