@@ -1,6 +1,7 @@
 &nbsp;
 &nbsp;
 &nbsp;
+&nbsp;
 
 # Ada Installation Guide (MacOS) - Version 0.7.x
 
@@ -167,15 +168,13 @@ elasticsearch
 ```
 (Kopf ES web client is then accessible at [http://localhost:9200/_plugin/kopf](http://localhost:9200/_plugin/kopf)) 
 
-&nbsp;  
+&nbsp;
 
 ### 4. Application Server (Netty)
 
-* Download the latest version  (e.g., 0.7.3) from
+* Download the latest version e.g., 0.7.3 from (the password is: "ada2019")
 
-```sh
-https://ada-discovery.org/downloads/ada-web-0.7.3.zip
-```
+[https://owncloud.lcsb.uni.lu/s/h5HJykkj2ftU0lO](https://owncloud.lcsb.uni.lu/s/h5HJykkj2ftU0lO)
 
 * Unzip the server binaries
 

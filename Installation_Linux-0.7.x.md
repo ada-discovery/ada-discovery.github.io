@@ -1,6 +1,7 @@
 &nbsp;
 &nbsp;
 &nbsp;
+&nbsp;
 
 # Ada Installation Guide (Linux) - Version 0.7.x
 
@@ -176,11 +177,9 @@ sudo /usr/share/elasticsearch/bin/plugin install lmenezes/elasticsearch-kopf/v2.
 
 ### 4. Application Server (Netty)
 
-* Download the latest version  (e.g., 0.7.3) from
+* Download the latest version e.g., 0.7.3 from (the password is: "ada2019")
 
-```sh
-https://ada-discovery.org/downloads/ada-web-0.7.3.zip
-```
+[https://owncloud.lcsb.uni.lu/s/h5HJykkj2ftU0lO](https://owncloud.lcsb.uni.lu/s/h5HJykkj2ftU0lO)
 
 * Unzip the server binaries
 

@@ -1,6 +1,7 @@
 &nbsp;
 &nbsp;
 &nbsp;
+&nbsp;
 
 # Ada Installation Guide (Linux) - Version 0.8.x
 
@@ -225,9 +226,9 @@ sudo service start kibana
 
 ### 4. Application Server (Netty)
 
-* Download the latest version  (e.g., 0.8.0) from
+* Download the latest version e.g., 0.8.0 from (the password is: "ada2019")
 
-[https://ada-discovery.org/download/ada-web-0.8.0.zip](https://ada-discovery.org/download/ada-web-0.8.0.zip)
+[https://owncloud.lcsb.uni.lu/s/uytCilF0onp25dQ](https://owncloud.lcsb.uni.lu/s/uytCilF0onp25dQ)
 
 * Unzip the server binaries
 
