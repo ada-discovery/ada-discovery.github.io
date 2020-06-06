@@ -23,19 +23,6 @@ Recommended resources:
 
 ```sh
 sudo apt-get install software-properties-common
-sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
-sudo apt-get install oracle-java8-installer
-sudo apt install oracle-java8-set-default
-```
-Depending on your Linux distribution you might need to add a different repository, such as
-
-```
-sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
-```
-or install JDK from a different provider, such as
-
-```
 sudo apt install openjdk-8-jdk
 ```
 
@@ -87,6 +74,7 @@ mongodb    hard    as              unlimited
 * To force your new limits to be loaded log out of all your current sessions and log back in.
 
 * If your Linux distribution uses systemd to manage services, create the following file `/etc/systemd/system/mongod.service.d/ulimit.conf`
+
 ```
 [Service]
 
@@ -97,6 +85,7 @@ LimitCPU=infinity
 LimitAS=infinity
 ```
 *  and apply the settings for `systemd`
+
 ```
 sudo systemctl daemon-reload
 ```
@@ -224,9 +213,11 @@ sudo service start kibana
 
 ### 4. Application Server (Netty)
 
-* Download the latest version e.g., 0.8.0 from (the password is: "ada2019")
+* Download the version 0.8.1
 
-[https://owncloud.lcsb.uni.lu/s/uytCilF0onp25dQ](https://owncloud.lcsb.uni.lu/s/uytCilF0onp25dQ)
+```
+wget https://webdav-r3lab.uni.lu/public/ada-artifacts/ada-web-0.8.1.zip
+```
 
 * Unzip the server binaries
 

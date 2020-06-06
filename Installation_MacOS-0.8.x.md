@@ -186,9 +186,11 @@ tar -xvf cerebro-0.8.3.zip
 
 ### 4. Application Server (Netty)
 
-* Download the latest version e.g., 0.8.0 from (the password is: "ada2019")
+* Download the version 0.8.1
 
-[https://owncloud.lcsb.uni.lu/s/uytCilF0onp25dQ](https://owncloud.lcsb.uni.lu/s/uytCilF0onp25dQ)
+```
+wget https://webdav-r3lab.uni.lu/public/ada-artifacts/ada-web-0.8.1.zip
+```
 
 * Unzip the server binaries
 
