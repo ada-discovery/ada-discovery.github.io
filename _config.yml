@@ -5,16 +5,10 @@ copyright_name: Ada Discovery Analytics
 github_username: peterbanda
 
 collections:
-  packages :
-  citation :
   collaborators :
 
 include:
-  - downloads.html
-  - Installation_Linux-0.7.x.md
-  - Installation_MacOS-0.7.x.md
-  - Installation_Linux-0.8.x.md
-  - Installation_MacOS-0.8.x.md
+  - _pages
 
 # used to estimate reading time
 wpm: 150
@@ -28,5 +22,7 @@ baseurl:
 paginate: 5
 paginate_path: /page:num
 
-# gem dependencies
+# gem dependencies 
 gems: [jekyll-paginate, jekyll-feed, jekyll-gist]
+markdown: kramdown
+theme: minima
