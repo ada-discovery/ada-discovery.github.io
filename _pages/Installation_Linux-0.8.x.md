@@ -1,7 +1,17 @@
+---
+layout: default
+title: Ada Installation Guide (Linux) - Version 0.8.x
+custom_css:
+- main.css
+- css/main.css
+- css/bootstrap.min.css
+permalink: /installation/linux/0_8_x
+---
+
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
-# Ada Installation Guide (Linux) - Version 0.7.x
+# Ada Installation Guide (Linux) - Version 0.8.x
 
 (Expected time: 30-45 mins)
 
@@ -9,13 +19,13 @@
 
 ### 0. Preparation
 
-Recommended OS: *Ubuntu 16.04, 17,04,* or *18.04*
+Recommended OS: *Ubuntu 16.04/18.04*
 
 Recommended resources:
 
-* **Ada Server**: 8 GB RAM, 8 CPUs, 40 GB disc space
-* **Mongo DB**: 8 GB RAM, 4 CPUs, 100 GB disc space
-* **Elastic Search DB**: 8 GB RAM, 4 CPUs, 100 GB disc space
+* **Ada Server**: 8 GB RAM, 8 CPUs, 20 GB disc space
+* **Mongo DB**: 8 GB RAM, 4 CPUs, 50 GB disc space
+* **Elastic Search DB**: 8 GB RAM, 4 CPUs, 50 GB disc space
 
 &nbsp; 
 
@@ -23,37 +33,26 @@ Recommended resources:
 
 ```sh
 sudo apt-get install software-properties-common
-sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
-sudo apt-get install oracle-java8-installer
-sudo apt install oracle-java8-set-default
-```
-Depending on your Linux distribution you might need to add a different repository, such as
-
-```
-sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
-```
-or install JDK from a different provider, such as
-
-```
 sudo apt install openjdk-8-jdk
 ```
 
-  &nbsp;
+&nbsp; 
 
 ### 2. **Mongo** DB
-* Install MongoDB (3.2.9)
+
+* Install MongoDB (4.0.10)
+(Note that Ada is compatible with *any* 3.2, 3.4, 3.6, and 4.0 relaease of Mongo in case you fail to install the recommended version)
+(Also if you want to use a non-Ubuntu Linux distribution check the supported platforms/OS [here](https://docs.mongodb.com/manual/installation/#supported-platforms]))
 
 ```sh
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-sudo echo "deb [arch=amd64] http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
 sudo apt-get update
-sudo apt-get install -y mongodb-org=3.2.9 mongodb-org-server=3.2.9 mongodb-org-shell=3.2.9 mongodb-org-mongos=3.2.9 mongodb-org-tools=3.2.9 
+sudo apt-get install -y mongodb-org=4.0.10 mongodb-org-server=4.0.10 mongodb-org-shell=4.0.10 mongodb-org-mongos=4.0.10 mongodb-org-tools=4.0.10
 ```
 
 * Configure memory and other settings in `/etc/mongod.conf`
-(set a reasonable `cacheSizeGB`, recommended to 50% of available RAM, [ref](https://docs.mongodb.com/v3.2/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB))
+(set a reasonable `cacheSizeGB`, recommended to 50% of available RAM, [ref](https://docs.mongodb.com/v4.0/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB))
 
 ```sh
   ...
@@ -66,8 +65,7 @@ sudo apt-get install -y mongodb-org=3.2.9 mongodb-org-server=3.2.9 mongodb-org-s
 ```
 
 * Create a limits file `/etc/security/limits.d/mongodb.conf`
-(if you are using Red Hat Enterprise Linux or CentOS read [this](https://docs.mongodb.com/v3.2/reference/ulimit/))
- 
+(if you are using Red Hat Enterprise Linux or CentOS read [this](https://docs.mongodb.com/v4.0/reference/ulimit/))
 
 ```sh
 mongodb    soft    nofile          1625538
@@ -83,7 +81,24 @@ mongodb    hard    cpu             unlimited
 mongodb    soft    as              unlimited
 mongodb    hard    as              unlimited
 ```
-* To force your new limits to be loaded log out of all your current sessions and log back in
+* To force your new limits to be loaded log out of all your current sessions and log back in.
+
+* If your Linux distribution uses systemd to manage services, create the following file `/etc/systemd/system/mongod.service.d/ulimit.conf`
+
+```
+[Service]
+
+LimitNOFILE=1625538
+LimitNPROC=64000
+LimitFSIZE=infinity
+LimitCPU=infinity
+LimitAS=infinity
+```
+*  and apply the settings for `systemd`
+
+```
+sudo systemctl daemon-reload
+```
 
 * Start Mongo
 
@@ -92,21 +107,23 @@ sudo service mongod start
 ```
 
 * To check  if everything works as expected see the log file `/var/log/mongodb/mongod.log`.
+
 * *Recommendation*: For convenient DB exploration and query execution install [Robomongo (Robo3T)](https://robomongo.org/download) UI client.
 
-* Optionally set up users with authentication as described [here](https://docs.mongodb.com/v3.2/tutorial/create-users/).
-* For tuning tips go to [here](https://www.percona.com/blog/2016/08/12/tuning-linux-for-mongodb).
+* Optionally set up users with authentication as described [here](https://docs.mongodb.com/v4.0/tutorial/create-users/).
+
+* For tuning tips go to [here](https://docs.mongodb.com/v4.0/administration/analyzing-mongodb-performance/).
 
 &nbsp;
 
 ## 3. **Elastic Search**
 
-* Install ES (2.3.4)
+* Install ES (5.6.10)
 
 ```sh
 sudo apt-get update
-wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.3.4/elasticsearch-2.3.4.deb
-sudo dpkg -i elasticsearch-2.3.4.deb
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.10.deb
+sudo dpkg -i elasticsearch-5.6.10.deb
 sudo systemctl enable elasticsearch.service
 ```
 
@@ -114,19 +131,16 @@ sudo systemctl enable elasticsearch.service
 
 ```sh
   cluster.name: ada-cluster       (if not changed "elasticsearch" is used by default)
-  bootstrap.mlockall: true
-  network.host: x.x.x.x           (set to a non-localhost ip address if the db should be accessible within a newtwork)
-  threadpool:
+  bootstrap.memory_lock: true
+  network.host: x.x.x.x           (set to a non-localhost ip address if the db should be accessible within a network)
+  thread_pool:
       index:
-          size: 30
           queue_size: 8000
       search:
-          size: 30
           queue_size: 8000 
       bulk:
-          size: 10
           queue_size: 500
-  index.query.bool.max_clause_count: 4096
+  indices.query.bool.max_clause_count: 4096
 ```
 
 * If you want to store data in a special directory set also
@@ -134,7 +148,7 @@ sudo systemctl enable elasticsearch.service
 ```
 path.data: /your_custom_path
 ```
-(Note that you need to make `your_custom_path` writeable for the `elasticsearch` user
+(Note that you need to make `your_custom_path` writeable for the `elasticsearch` user)
 
 * Create a limits file `/etc/security/limits.d/elasticsearch.conf`
 
@@ -145,15 +159,28 @@ elasticsearch    soft    memlock         unlimited
 elasticsearch    hard    memlock         unlimited
 ```
 
-* To force your new limits to be loaded log out of all your current sessions and log back in
+* To force your new limits to be loaded log out of all your current sessions and log back in.
 
-* Configure memory constraints in `/etc/init.d/elasticsearch` (or `/etc/default/elasticsearch`)
-(set a reasonable `ES_HEAP_SIZE`; recommended to 50% of available RAM, but no more than 31g)
-
-
+* Configure open-file and locked memory constraints in `/etc/init.d/elasticsearch` (and/or `/etc/default/elasticsearch`)
 ```
-ES_HEAP_SIZE=5g
 MAX_OPEN_FILES=1625538
+MAX_LOCKED_MEMORY=unlimited
+```
+
+* Depending on the Linux installation configure also `/usr/lib/systemd/system/elasticsearch.service`
+```
+LimitNOFILE=1625538
+LimitMEMLOCK=infinity
+```
+
+* Set a reasonable heap size; recommended to 50% of available RAM, but no more than 31g in `/etc/elasticsearch/jvm.options`, e.g.
+```
+-Xms5g
+-Xmx5g
+```
+*  and finally apply the settings for `systemd`
+```
+sudo systemctl daemon-reload
 ```
 
 * Start ES
@@ -163,21 +190,44 @@ sudo service elasticsearch start
 
 * To check if everything works as expected see the log file(s) at `/var/log/elasticsearch/` and/or curl the server info by `curl -XGET localhost:9200`.
 
-* *Recommendation*: For convenient DB exploration and query execution install the `kopf` plugin:
+* *Recommendation*: For convenient DB exploration and query execution you might want to install the *cerebro* app:
 
 ```sh
-sudo /usr/share/elasticsearch/bin/plugin install lmenezes/elasticsearch-kopf/v2.1.1
+ sudo wget https://github.com/lmenezes/cerebro/releases/download/v0.8.3/cerebro-0.8.3.zip
+ sudo unzip cerebro-0.8.3.zip
 ```
-(Kopf ES web client is then accessible at [http://localhost:9200/_plugin/kopf](http://localhost:9200/_plugin/kopf)) 
+* Open the configuration file `conf/application.conf` and add the host and name of your Elastic server to the `hosts` section, e.g.,
+```
+  {
+    host = "http://x.x.x.x:9200"
+    name = "ada-cluster"
+  }
+```
+* Run Cerebro, for example at the port 9209
+```
+ sudo ./bin/cerebro -Dhttp.port=9209
+```
+(Cerebro web client is then accessible at [http://localhost:9209](http://localhost:9209)) 
 
-  
-
+* Alternatively you can install *Kibana*, which also allows execution of Elastic queries and many more, as follows (more info [here](https://www.elastic.co/guide/en/kibana/5.6/deb.html)):
+```
+echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
+sudo apt-get update
+sudo apt-get install kibana
+sudo /bin/systemctl daemon-reload
+sudo /bin/systemctl enable kibana.service
+sudo service start kibana
+```
+ 
+&nbsp;
 
 ### 4. Application Server (Netty)
 
-* Download the latest version e.g., 0.7.3 from (the password is: "ada2019")
+* Download the version 0.8.1
 
-[https://owncloud.lcsb.uni.lu/s/h5HJykkj2ftU0lO](https://owncloud.lcsb.uni.lu/s/h5HJykkj2ftU0lO)
+```
+wget https://webdav-r3lab.uni.lu/public/ada-artifacts/ada-web-0.8.1.zip
+```
 
 * Unzip the server binaries
 
@@ -220,7 +270,7 @@ export ADA_MONGO_DB_PASSWORD="XXX"
 if non-localhost server is used set `ADA_ELASTIC_DB_HOST`
 
 ```
-export ADA_ELASTIC_DB_HOST=x.x.x.x:9300
+export ADA_ELASTIC_DB_HOST=x.x.x.x:9200
 ```
 
 Also set the custom ES cluster name if it was configured in Section 3 (see `/etc/elasticsearch/elasticsearch.yml`) 
@@ -332,8 +382,8 @@ University of Seven Kingdoms</br></br>
 <li role="separator" class="divider"></li>
 <li><a href="https://uni.lu/lcsb">LCSB Home</a></li>
 ```
-  
-&nbsp;  
+
+&nbsp; 
 
 ### 5. LDAP
 

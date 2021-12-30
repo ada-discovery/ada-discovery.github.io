@@ -1,3 +1,13 @@
+---
+layout: default
+title: Ada Installation Guide (MacOS) - Version 0.8.x
+custom_css:
+- main.css
+- css/main.css
+- css/bootstrap.min.css
+permalink: /installation/macos/0_8_x
+---
+
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 

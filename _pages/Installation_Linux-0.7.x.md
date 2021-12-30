@@ -1,7 +1,17 @@
+---
+layout: default
+title: Ada Installation Guide (Linux) - Version 0.7.x
+custom_css:
+- main.css
+- css/main.css
+- css/bootstrap.min.css
+permalink: /installation/linux/0_7_x
+---
+
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
-# Ada Installation Guide (MacOS) - Version 0.7.x
+# Ada Installation Guide (Linux) - Version 0.7.x
 
 (Expected time: 30-45 mins)
 
@@ -9,7 +19,7 @@
 
 ### 0. Preparation
 
-Recommended OS: *MacOS* 10.14.4
+Recommended OS: *Ubuntu 16.04, 17,04,* or *18.04*
 
 Recommended resources:
 
@@ -22,23 +32,37 @@ Recommended resources:
 ### 1. **Java** 1.8
 
 ```sh
-brew cask install java8
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+sudo apt install oracle-java8-set-default
+```
+Depending on your Linux distribution you might need to add a different repository, such as
+
+```
+sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main"
+```
+or install JDK from a different provider, such as
+
+```
+sudo apt install openjdk-8-jdk
 ```
 
-&nbsp;
+  &nbsp;
 
 ### 2. **Mongo** DB
 * Install MongoDB (3.2.9)
 
 ```sh
-curl -L -O http://downloads.mongodb.org/osx/mongodb-osx-x86_64-3.2.9.tgz
-tar -xvf mongodb-osx-x86_64-3.2.9.tgz
-mv mongodb-osx-x86_64-3.2.9 mongodb
-mkdir -p /data/db
-sudo chown -R `id -un` /data/db
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+sudo echo "deb [arch=amd64] http://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org=3.2.9 mongodb-org-server=3.2.9 mongodb-org-shell=3.2.9 mongodb-org-mongos=3.2.9 mongodb-org-tools=3.2.9 
 ```
 
-* Configure memory and other settings in `/usr/local/etc/mongod.conf`
+* Configure memory and other settings in `/etc/mongod.conf`
 (set a reasonable `cacheSizeGB`, recommended to 50% of available RAM, [ref](https://docs.mongodb.com/v3.2/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB))
 
 ```sh
@@ -52,6 +76,7 @@ sudo chown -R `id -un` /data/db
 ```
 
 * Create a limits file `/etc/security/limits.d/mongodb.conf`
+(if you are using Red Hat Enterprise Linux or CentOS read [this](https://docs.mongodb.com/v3.2/reference/ulimit/))
  
 
 ```sh
@@ -70,37 +95,32 @@ mongodb    hard    as              unlimited
 ```
 * To force your new limits to be loaded log out of all your current sessions and log back in
 
-* Add MongoDB installation folder to PATH environment variable `/etc/paths`
-
-```
-<mongo_installation_folder>/bin
-```
-
 * Start Mongo
 
 ```sh
-mongod
+sudo service mongod start
 ```
 
-* To check  if everything works as expected see the log file `/usr/local/var/log/mongodb`.
+* To check  if everything works as expected see the log file `/var/log/mongodb/mongod.log`.
 * *Recommendation*: For convenient DB exploration and query execution install [Robomongo (Robo3T)](https://robomongo.org/download) UI client.
 
 * Optionally set up users with authentication as described [here](https://docs.mongodb.com/v3.2/tutorial/create-users/).
 * For tuning tips go to [here](https://www.percona.com/blog/2016/08/12/tuning-linux-for-mongodb).
 
-&nbsp; 
+&nbsp;
 
 ## 3. **Elastic Search**
 
 * Install ES (2.3.4)
 
 ```sh
-curl -L -O https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.3.4/elasticsearch-2.3.4.tar.gz
-tar -xvf elasticsearch-2.3.4.tar.gz
-mv elasticsearch-2.3.4 elasticsearch
+sudo apt-get update
+wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.3.4/elasticsearch-2.3.4.deb
+sudo dpkg -i elasticsearch-2.3.4.deb
+sudo systemctl enable elasticsearch.service
 ```
 
-* Modify the configuration in `<es_installation_folder>/config/elasticsearch.yml`
+* Modify the configuration in `/etc/elasticsearch/elasticsearch.yml`
 
 ```sh
   cluster.name: ada-cluster       (if not changed "elasticsearch" is used by default)
@@ -137,7 +157,7 @@ elasticsearch    hard    memlock         unlimited
 
 * To force your new limits to be loaded log out of all your current sessions and log back in
 
-* Configure memory constraints in `/etc/default/elasticsearch`
+* Configure memory constraints in `/etc/init.d/elasticsearch` (or `/etc/default/elasticsearch`)
 (set a reasonable `ES_HEAP_SIZE`; recommended to 50% of available RAM, but no more than 31g)
 
 
@@ -146,27 +166,22 @@ ES_HEAP_SIZE=5g
 MAX_OPEN_FILES=1625538
 ```
 
-* Add Elastic Search to PATH environment variable `/etc/paths`
-
-~~~
-<es_installation_folder>/bin
-~~~
-
 * Start ES
 ```
-elasticsearch
+sudo service elasticsearch start
 ```
 
-* To check if everything works as expected see the log file(s) at `/usr/local/var/log/elasticsearch` and/or curl the server info by `curl -XGET localhost:9200`.
+* To check if everything works as expected see the log file(s) at `/var/log/elasticsearch/` and/or curl the server info by `curl -XGET localhost:9200`.
 
 * *Recommendation*: For convenient DB exploration and query execution install the `kopf` plugin:
 
 ```sh
-<es_installation_folder>/bin/plugin install lmenezes/elasticsearch-kopf/v2.1.1
+sudo /usr/share/elasticsearch/bin/plugin install lmenezes/elasticsearch-kopf/v2.1.1
 ```
 (Kopf ES web client is then accessible at [http://localhost:9200/_plugin/kopf](http://localhost:9200/_plugin/kopf)) 
 
-&nbsp;
+  
+
 
 ### 4. Application Server (Netty)
 
@@ -226,7 +241,6 @@ export ADA_ELASTIC_DB_CLUSTER_NAME="ada-cluster"
 
 3 . *General Setting*
 
-
 * Configure `project`, `ldap` (to enable access **without** authentication), and `datasetimport` in `custom.conf` (Ada `conf` folder) 
 
 ```sh
@@ -243,12 +257,6 @@ ldap {
 }
 
 datasetimport.import.folder = "/custom_path"
-```
-
-* Switch a Netty transport implementation to `jdk` (in `custom.conf`), which is required for MacOS deployments
-
-```sh
-play.server.netty.transport = "jdk"
 ```
 
 * Optionally if you want to use external images not shipped by default with Ada you must register your resource folder(s) placed in the Ada root by editing `custom.conf`
@@ -334,8 +342,8 @@ University of Seven Kingdoms</br></br>
 <li role="separator" class="divider"></li>
 <li><a href="https://uni.lu/lcsb">LCSB Home</a></li>
 ```
-
- &nbsp; 
+  
+&nbsp;  
 
 ### 5. LDAP
 

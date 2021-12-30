@@ -1,7 +1,17 @@
+---
+layout: default
+title: Ada Installation Guide (MacOS) - Version 0.9.0
+custom_css:
+- main.css
+- css/main.css
+- css/bootstrap.min.css
+permalink: /installation/macos/0_9_0
+---
+
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 
-# Ada Installation Guide (Linux) - Version 0.8.x
+# Ada Installation Guide (MacOS) - Version 0.9.0
 
 (Expected time: 30-45 mins)
 
@@ -9,7 +19,7 @@
 
 ### 0. Preparation
 
-Recommended OS: *Ubuntu 16.04/18.04*
+Recommended OS: *MacOS* 10.14.4
 
 Recommended resources:
 
@@ -22,26 +32,25 @@ Recommended resources:
 ### 1. **Java** 1.8
 
 ```sh
-sudo apt-get install software-properties-common
-sudo apt install openjdk-8-jdk
+brew cask install java8
 ```
 
-&nbsp; 
+&nbsp;
 
 ### 2. **Mongo** DB
 
 * Install MongoDB (4.0.10)
 (Note that Ada is compatible with *any* 3.2, 3.4, 3.6, and 4.0 relaease of Mongo in case you fail to install the recommended version)
-(Also if you want to use a non-Ubuntu Linux distribution check the supported platforms/OS [here](https://docs.mongodb.com/manual/installation/#supported-platforms]))
 
 ```sh
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu "$(lsb_release -sc)"/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
-sudo apt-get update
-sudo apt-get install -y mongodb-org=4.0.10 mongodb-org-server=4.0.10 mongodb-org-shell=4.0.10 mongodb-org-mongos=4.0.10 mongodb-org-tools=4.0.10
+curl -L -O https://fastdl.mongodb.org/osx/mongodb-osx-ssl-x86_64-4.0.10.tgz
+tar -xvf mongodb-osx-ssl-x86_64-4.0.10.tgz
+mv mongodb-osx-x86_64-4.0.10 mongodb
+mkdir -p /data/db
+sudo chown -R `id -un` /data/db
 ```
 
-* Configure memory and other settings in `/etc/mongod.conf`
+* Configure memory and other settings in `/usr/local/etc/mongod.conf`
 (set a reasonable `cacheSizeGB`, recommended to 50% of available RAM, [ref](https://docs.mongodb.com/v4.0/reference/configuration-options/#storage.wiredTiger.engineConfig.cacheSizeGB))
 
 ```sh
@@ -55,7 +64,6 @@ sudo apt-get install -y mongodb-org=4.0.10 mongodb-org-server=4.0.10 mongodb-org
 ```
 
 * Create a limits file `/etc/security/limits.d/mongodb.conf`
-(if you are using Red Hat Enterprise Linux or CentOS read [this](https://docs.mongodb.com/v4.0/reference/ulimit/))
 
 ```sh
 mongodb    soft    nofile          1625538
@@ -73,30 +81,19 @@ mongodb    hard    as              unlimited
 ```
 * To force your new limits to be loaded log out of all your current sessions and log back in.
 
-* If your Linux distribution uses systemd to manage services, create the following file `/etc/systemd/system/mongod.service.d/ulimit.conf`
+* Add MongoDB installation folder to PATH environment variable `/etc/paths`
 
 ```
-[Service]
-
-LimitNOFILE=1625538
-LimitNPROC=64000
-LimitFSIZE=infinity
-LimitCPU=infinity
-LimitAS=infinity
-```
-*  and apply the settings for `systemd`
-
-```
-sudo systemctl daemon-reload
+<mongo_installation_folder>/bin
 ```
 
 * Start Mongo
 
 ```sh
-sudo service mongod start
+mongod
 ```
 
-* To check  if everything works as expected see the log file `/var/log/mongodb/mongod.log`.
+* To check  if everything works as expected see the log file `/usr/local/var/log/mongodb`.
 
 * *Recommendation*: For convenient DB exploration and query execution install [Robomongo (Robo3T)](https://robomongo.org/download) UI client.
 
@@ -104,20 +101,19 @@ sudo service mongod start
 
 * For tuning tips go to [here](https://docs.mongodb.com/v4.0/administration/analyzing-mongodb-performance/).
 
-&nbsp;
+&nbsp; 
 
 ## 3. **Elastic Search**
 
 * Install ES (5.6.10)
 
 ```sh
-sudo apt-get update
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.10.deb
-sudo dpkg -i elasticsearch-5.6.10.deb
-sudo systemctl enable elasticsearch.service
+curl -L -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.10.tar.gz
+tar -xvf elasticsearch-5.6.10.tar.gz
+mv elasticsearch-5.6.10 elasticsearch
 ```
 
-* Modify the configuration in `/etc/elasticsearch/elasticsearch.yml`
+* Modify the configuration in `<es_installation_folder>/config/elasticsearch.yml`
 
 ```sh
   cluster.name: ada-cluster       (if not changed "elasticsearch" is used by default)
@@ -151,40 +147,35 @@ elasticsearch    hard    memlock         unlimited
 
 * To force your new limits to be loaded log out of all your current sessions and log back in.
 
-* Configure open-file and locked memory constraints in `/etc/init.d/elasticsearch` (and/or `/etc/default/elasticsearch`)
+* Configure open-file and locked memory constraints in `/etc/default/elasticsearch`
 ```
 MAX_OPEN_FILES=1625538
 MAX_LOCKED_MEMORY=unlimited
 ```
-
-* Depending on the Linux installation configure also `/usr/lib/systemd/system/elasticsearch.service`
-```
-LimitNOFILE=1625538
-LimitMEMLOCK=infinity
-```
-
-* Set a reasonable heap size; recommended to 50% of available RAM, but no more than 31g in `/etc/elasticsearch/jvm.options`, e.g.
+* Set a reasonable heap size; recommended to 50% of available RAM, but no more than 31g in `<es_installation_folder>/elasticsearch/config/jvm.options`, e.g.
 ```
 -Xms5g
 -Xmx5g
 ```
-*  and finally apply the settings for `systemd`
-```
-sudo systemctl daemon-reload
-```
+
+* Add Elastic Search to PATH environment variable `/etc/paths`
+
+~~~
+<es_installation_folder>/bin
+~~~
 
 * Start ES
 ```
-sudo service elasticsearch start
+elasticsearch
 ```
 
-* To check if everything works as expected see the log file(s) at `/var/log/elasticsearch/` and/or curl the server info by `curl -XGET localhost:9200`.
+* To check if everything works as expected see the log file(s) at `/usr/local/var/log/elasticsearch` and/or curl the server info by `curl -XGET localhost:9200`.
 
 * *Recommendation*: For convenient DB exploration and query execution you might want to install the *cerebro* app:
 
 ```sh
- sudo wget https://github.com/lmenezes/cerebro/releases/download/v0.8.3/cerebro-0.8.3.zip
- sudo unzip cerebro-0.8.3.zip
+curl -L -O https://github.com/lmenezes/cerebro/releases/download/v0.8.3/cerebro-0.8.3.zip
+tar -xvf cerebro-0.8.3.zip
 ```
 * Open the configuration file `conf/application.conf` and add the host and name of your Elastic server to the `hosts` section, e.g.,
 ```
@@ -199,24 +190,16 @@ sudo service elasticsearch start
 ```
 (Cerebro web client is then accessible at [http://localhost:9209](http://localhost:9209)) 
 
-* Alternatively you can install *Kibana*, which also allows execution of Elastic queries and many more, as follows (more info [here](https://www.elastic.co/guide/en/kibana/5.6/deb.html)):
-```
-echo "deb https://artifacts.elastic.co/packages/5.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list
-sudo apt-get update
-sudo apt-get install kibana
-sudo /bin/systemctl daemon-reload
-sudo /bin/systemctl enable kibana.service
-sudo service start kibana
-```
- 
-&nbsp;
+* Alternatively you can install *Kibana*, which also allows execution of Elastic queries and many more, as described [here](https://www.elastic.co/guide/en/beats/libbeat/5.6/kibana-installation.html).
+
+&nbsp; 
 
 ### 4. Application Server (Netty)
 
-* Download the version 0.8.1
+* Download the version 0.9.0
 
 ```
-wget https://webdav-r3lab.uni.lu/public/ada-artifacts/ada-web-0.8.1.zip
+wget https://peterbanda.net/ada-web-0.9.0.zip
 ```
 
 * Unzip the server binaries
@@ -271,6 +254,7 @@ export ADA_ELASTIC_DB_CLUSTER_NAME="ada-cluster"
 
 3 . *General Setting*
 
+
 * Configure `project`, `ldap` (to enable access **without** authentication), and `datasetimport` in `custom.conf` (Ada `conf` folder) 
 
 ```sh
@@ -287,6 +271,12 @@ ldap {
 }
 
 datasetimport.import.folder = "/custom_path"
+```
+
+* Switch a Netty transport implementation to `jdk` (in `custom.conf`), which is required for MacOS deployments
+
+```sh
+play.server.netty.transport = "jdk"
 ```
 
 * Optionally if you want to use external images not shipped by default with Ada you must register your resource folder(s) placed in the Ada root by editing `custom.conf`
