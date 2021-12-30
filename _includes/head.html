@@ -2,11 +2,16 @@
     <title>{{ site.title }}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main_stellar.css">
+
     {% if page.custom_css %}
       {% for stylesheet in page.custom_css %}
       <link rel="stylesheet" href="{{ site.baseurl }}/assets/{{ stylesheet }}">
       {% endfor %}
     {% endif %}
+
     <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/favicon.ico">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->

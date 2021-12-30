@@ -3,8 +3,6 @@ layout: default
 title: Download
 custom_css:
 - main.css
-- css/main_stellar.css
-- css/bootstrap.min.css
 permalink: /download/
 ---
 

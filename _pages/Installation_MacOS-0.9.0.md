@@ -3,8 +3,6 @@ layout: default
 title: Ada Installation Guide (MacOS) - Version 0.9.0
 custom_css:
 - main.css
-- css/main_stellar.css
-- css/bootstrap.min.css
 permalink: /installation/macos/0_9_0
 ---
 
