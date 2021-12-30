@@ -3,7 +3,7 @@ layout: default
 title: Ada Installation Guide (Linux) - Version 0.7.x
 custom_css:
 - main.css
-- css/main.css
+- css/main_stellar.css
 - css/bootstrap.min.css
 permalink: /installation/linux/0_7_x
 ---
