@@ -14,7 +14,7 @@ permalink: /download/
 
 ### Latest
 
-[Version 0.9.0](https:/peterbanda.net/ada-web-0.9.0.zip)
+[Version 0.9.0](https://peterbanda.net/ada-web-0.9.0.zip)
 - Released Dec 29, 2021
 - [Apache 0.2.0 License](https://www.apache.org/licenses/LICENSE-2.0.txt)
 - Installation Guides: [Linux](/installation/linux/0_9_0), [MacOS](/installation/macos/0_9_0)
@@ -38,6 +38,6 @@ All of these have Highcharts included hence the CC BY-NC 3.0 license applies
 - Released July 19, 2019
 - Installation Guides: [Linux](/installation/linux/0_8_x), [MacOS](/installation/macos/0_8_x)
 
-[Version 0.7.3](https:/peterbanda.net/ada-web-0.7.3.zip)
+[Version 0.7.3](https://peterbanda.net/ada-web-0.7.3.zip)
 - Released June 24, 2019
 - Installation Guides: [Linux](/installation/linux/0_7_x), [MacOS](/installation/macos/0_7_x)

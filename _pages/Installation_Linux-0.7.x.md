@@ -341,7 +341,7 @@ University of Seven Kingdoms</br></br>
 <li><a href="https://uni.lu/lcsb">LCSB Home</a></li>
 ```
   
-&nbsp;  
+&nbsp;
 
 ### 5. LDAP
 
