@@ -3,7 +3,7 @@ layout: default
 title: Ada Installation Guide (MacOS) - Version 0.10.1
 custom_css:
 - main.css
-  permalink: /installation/macos/0_10_1
+permalink: /installation/macos/0_10_1
 ---
 
 <p>&nbsp;</p>
