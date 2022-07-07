@@ -81,6 +81,7 @@ mongodb    hard    as              unlimited
 * To force your new limits to be loaded log out of all your current sessions and log back in.
 
 * If your Linux distribution uses systemd to manage services, create the following file `/etc/systemd/system/mongod.service.d/ulimit.conf`
+
 ```
 [Service]
 
@@ -90,14 +91,15 @@ LimitFSIZE=infinity
 LimitCPU=infinity
 LimitAS=infinity
 ```
-*  and apply the settings for `systemd`
+* and apply the settings for `systemd`
+
 ```
 sudo systemctl daemon-reload
 ```
 
 * Start Mongo
 
-```sh
+```
 sudo service mongod start
 ```
 
